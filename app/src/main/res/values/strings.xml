@@ -1,0 +1,113 @@
+<resources>
+    <string name="app_name">線維筋痛症ダイアリー</string>
+    <string name="main_title">線維筋痛症ダイアリー</string>
+    <string name="open_record_input">記録を入力する</string>
+    <string name="open_saved_records">保存を見る</string>
+    <string name="open_mandala_data">曼荼羅用データ</string>
+    <string name="date_time_label">日付と時刻</string>
+    <string name="pain_level_label">痛みの度合い</string>
+    <string name="movement_label">動ける状態</string>
+    <string name="sleep_label">睡眠の状態</string>
+    <string name="brain_fog_label">頭の働き（ブレインフォグ）</string>
+    <string name="pain_time_label">痛い時間帯</string>
+    <string name="memo_label">メモ</string>
+    <string name="memo_hint">今日の状態を入力</string>
+    <string name="save">保存</string>
+    <string name="next">次へ</string>
+    <string name="next_page_title">次のページ</string>
+    <string name="environment_page_title">環境と日常活動</string>
+    <string name="weather_label">天候</string>
+    <string name="temperature_label">気温</string>
+    <string name="pressure_label">気圧の変化</string>
+    <string name="daily_activity_label">日常の通勤・通学・家事の活動性</string>
+    <string name="pain_time_morning">1. 午前中</string>
+    <string name="pain_time_evening">2. 夕方</string>
+    <string name="pain_time_night">3. 夜間</string>
+    <string name="pain_time_all_day">4. 1日中</string>
+    <string name="saved_records_title">保存済み記録</string>
+    <string name="no_saved_records">保存された記録はありません</string>
+    <string name="delete_record">ゴミ箱</string>
+    <string name="delete_confirm_message">この記録を削除しますか？</string>
+    <string name="delete">削除</string>
+    <string name="cancel">キャンセル</string>
+    <string name="unknown_date_time">日時なし</string>
+    <string name="return_to_top">最初に戻る</string>
+    <string name="mandala_data_title">曼荼羅用データ</string>
+    <string name="mandala_map_title">6×6曼荼羅マップ</string>
+    <string name="mandala_record_format">%1$d回前　痛み：%2$s　動ける状態：%3$s</string>
+    <string name="mandala_period_format">対象期間：%1$s ～ %2$s</string>
+    <string name="mandala_period_no_records">対象期間：記録なし</string>
+    <string name="period_one_week">1週</string>
+    <string name="period_two_weeks">2週</string>
+    <string name="period_four_weeks">4週</string>
+    <string name="period_eight_weeks">8週</string>
+    <string name="period_twelve_weeks">12週</string>
+
+    <string-array name="pain_level_options">
+        <item>1. 全く痛くない</item>
+        <item>2. 少し痛い</item>
+        <item>3. 痛い</item>
+        <item>4. 酷く痛い</item>
+        <item>5. 経験した中で一番痛い</item>
+        <item>6. 夜間眠れないほど痛い</item>
+    </string-array>
+
+    <string-array name="movement_options">
+        <item>1. 健康に歩ける</item>
+        <item>2. どうにか歩ける</item>
+        <item>3. ようやく歩ける</item>
+        <item>4. 杖がいる</item>
+        <item>5. 車椅子がいる</item>
+        <item>6. 寝たきり</item>
+    </string-array>
+
+    <string-array name="sleep_options">
+        <item>1. よく眠れた</item>
+        <item>2. 夜間目覚めることがあった</item>
+        <item>3. 夜間何度も目覚めた</item>
+        <item>4. ほとんど眠れなかった</item>
+        <item>5. 眠れなかった</item>
+    </string-array>
+
+    <string-array name="brain_fog_options">
+        <item>1. 脳の働きがすっきりしている</item>
+        <item>2. 脳の働きが少し悪い</item>
+        <item>3. 脳の働きが大分悪い</item>
+        <item>4. ほとんど働かない</item>
+        <item>5. 全く働かない</item>
+    </string-array>
+
+    <string-array name="weather_options">
+        <item>1. 晴れ</item>
+        <item>2. 曇り</item>
+        <item>3. 雨</item>
+        <item>4. 雪</item>
+        <item>5. 強風（雨、雪を含む）</item>
+    </string-array>
+
+    <string-array name="temperature_options">
+        <item>1. 酷く暑い</item>
+        <item>2. 暑い</item>
+        <item>3. 少し暑い</item>
+        <item>4. 快適</item>
+        <item>5. 少し寒い</item>
+        <item>6. 寒い</item>
+        <item>7. 酷く寒い</item>
+    </string-array>
+
+    <string-array name="pressure_options">
+        <item>1. 高気圧の接近</item>
+        <item>2. 安定</item>
+        <item>3. 低気圧の接近</item>
+        <item>4. 前線の移動</item>
+        <item>5. 台風の接近</item>
+    </string-array>
+
+    <string-array name="daily_activity_options">
+        <item>1. 完全</item>
+        <item>2. ちょっと大変</item>
+        <item>3. 大分大変</item>
+        <item>4. 辛くて早退</item>
+        <item>5. 行けなかった</item>
+    </string-array>
+</resources>
