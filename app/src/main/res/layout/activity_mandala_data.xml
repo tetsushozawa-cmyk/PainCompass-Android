@@ -109,6 +109,29 @@
                 android:layout_height="wrap_content" />
         </HorizontalScrollView>
 
+        <LinearLayout
+            android:id="@+id/mandalaColorLegendLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/mandala_color_legend_title"
+                android:textColor="@color/text_primary"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/mandalaColorLegendItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical" />
+        </LinearLayout>
+
         <Button
             android:id="@+id/mandalaReturnToTopButton"
             android:layout_width="match_parent"

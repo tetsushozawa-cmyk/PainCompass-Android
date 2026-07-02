@@ -3,7 +3,9 @@ package com.example.painrecord001
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONObject
@@ -25,6 +27,7 @@ class MandalaDataActivity : AppCompatActivity() {
         val mandalaPeriodText = findViewById<TextView>(R.id.mandalaPeriodText)
         val mandalaDataText = findViewById<TextView>(R.id.mandalaDataText)
         val mandalaMapView = findViewById<MandalaMapView>(R.id.mandalaMapView)
+        val legendItems = findViewById<LinearLayout>(R.id.mandalaColorLegendItems)
         val periodButtons = listOf(
             findViewById<Button>(R.id.periodOneWeekButton) to 7,
             findViewById<Button>(R.id.periodTwoWeeksButton) to 14,
@@ -34,11 +37,62 @@ class MandalaDataActivity : AppCompatActivity() {
         )
         val returnToTopButton = findViewById<Button>(R.id.mandalaReturnToTopButton)
 
+        setupColorLegend(legendItems)
         setupPeriodButtons(periodButtons, mandalaPeriodText, mandalaDataText, mandalaMapView)
         updateMandalaDisplay(mandalaPeriodText, mandalaDataText, mandalaMapView, selectedPeriodDays)
         returnToTopButton.setOnClickListener {
             returnToTop()
         }
+    }
+
+    private fun setupColorLegend(legendItems: LinearLayout) {
+        val items = listOf(
+            Color.rgb(0, 0, 0) to getString(R.string.mandala_color_legend_one_week),
+            Color.rgb(194, 57, 52) to getString(R.string.mandala_color_legend_two_weeks),
+            Color.rgb(116, 74, 168) to getString(R.string.mandala_color_legend_four_weeks),
+            Color.rgb(16, 142, 113) to getString(R.string.mandala_color_legend_eight_weeks),
+            Color.rgb(31, 76, 142) to getString(R.string.mandala_color_legend_twelve_weeks)
+        )
+
+        legendItems.removeAllViews()
+        for ((color, label) in items) {
+            legendItems.addView(createLegendRow(color, label))
+        }
+    }
+
+    private fun createLegendRow(color: Int, label: String): LinearLayout {
+        val density = resources.displayMetrics.density
+        val row = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                topMargin = (6f * density).toInt()
+            }
+        }
+
+        val circleSize = (14f * density).toInt()
+        val circle = ColorCircleView(this).apply {
+            setCircleColor(color)
+            layoutParams = LinearLayout.LayoutParams(circleSize, circleSize)
+        }
+        val text = TextView(this).apply {
+            setText(label)
+            setTextColor(getColor(R.color.text_primary))
+            textSize = 15f
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                marginStart = (10f * density).toInt()
+            }
+        }
+
+        row.addView(circle)
+        row.addView(text)
+        return row
     }
 
     private fun setupPeriodButtons(
@@ -189,11 +243,11 @@ class MandalaDataActivity : AppCompatActivity() {
         }.time
         val daysAgo = ((todayStart.time - recordDate.time) / MILLIS_PER_DAY).toInt()
         return when {
-            daysAgo < 7 -> Color.rgb(30, 96, 190)
-            daysAgo < 14 -> Color.rgb(16, 142, 113)
-            daysAgo < 28 -> Color.rgb(230, 184, 48)
-            daysAgo < 56 -> Color.rgb(226, 126, 42)
-            else -> Color.rgb(194, 57, 52)
+            daysAgo < 7 -> Color.rgb(0, 0, 0)
+            daysAgo < 14 -> Color.rgb(194, 57, 52)
+            daysAgo < 28 -> Color.rgb(116, 74, 168)
+            daysAgo < 56 -> Color.rgb(16, 142, 113)
+            else -> Color.rgb(31, 76, 142)
         }
     }
 

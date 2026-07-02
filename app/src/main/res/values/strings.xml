@@ -38,6 +38,12 @@
     <string name="mandala_record_format">%1$d回前　痛み：%2$s　動ける状態：%3$s</string>
     <string name="mandala_period_format">対象期間：%1$s ～ %2$s</string>
     <string name="mandala_period_no_records">対象期間：記録なし</string>
+    <string name="mandala_color_legend_title">色の説明</string>
+    <string name="mandala_color_legend_one_week">過去1週間</string>
+    <string name="mandala_color_legend_two_weeks">過去2週間</string>
+    <string name="mandala_color_legend_four_weeks">過去4週間</string>
+    <string name="mandala_color_legend_eight_weeks">過去8週間</string>
+    <string name="mandala_color_legend_twelve_weeks">過去12週間</string>
     <string name="period_one_week">1週</string>
     <string name="period_two_weeks">2週</string>
     <string name="period_four_weeks">4週</string>
