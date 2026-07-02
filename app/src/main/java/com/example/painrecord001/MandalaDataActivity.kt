@@ -1,11 +1,9 @@
 package com.example.painrecord001
 
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
-import android.view.Gravity
 import android.widget.Button
-import android.widget.TableLayout
-import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONObject
@@ -26,7 +24,7 @@ class MandalaDataActivity : AppCompatActivity() {
 
         val mandalaPeriodText = findViewById<TextView>(R.id.mandalaPeriodText)
         val mandalaDataText = findViewById<TextView>(R.id.mandalaDataText)
-        val mandalaMapTable = findViewById<TableLayout>(R.id.mandalaMapTable)
+        val mandalaMapView = findViewById<MandalaMapView>(R.id.mandalaMapView)
         val periodButtons = listOf(
             findViewById<Button>(R.id.periodOneWeekButton) to 7,
             findViewById<Button>(R.id.periodTwoWeeksButton) to 14,
@@ -36,8 +34,8 @@ class MandalaDataActivity : AppCompatActivity() {
         )
         val returnToTopButton = findViewById<Button>(R.id.mandalaReturnToTopButton)
 
-        setupPeriodButtons(periodButtons, mandalaPeriodText, mandalaDataText, mandalaMapTable)
-        updateMandalaDisplay(mandalaPeriodText, mandalaDataText, mandalaMapTable, selectedPeriodDays)
+        setupPeriodButtons(periodButtons, mandalaPeriodText, mandalaDataText, mandalaMapView)
+        updateMandalaDisplay(mandalaPeriodText, mandalaDataText, mandalaMapView, selectedPeriodDays)
         returnToTopButton.setOnClickListener {
             returnToTop()
         }
@@ -47,7 +45,7 @@ class MandalaDataActivity : AppCompatActivity() {
         periodButtons: List<Pair<Button, Int>>,
         mandalaPeriodText: TextView,
         mandalaDataText: TextView,
-        mandalaMapTable: TableLayout
+        mandalaMapView: MandalaMapView
     ) {
         for ((button, days) in periodButtons) {
             button.setOnClickListener {
@@ -56,7 +54,7 @@ class MandalaDataActivity : AppCompatActivity() {
                 updateMandalaDisplay(
                     mandalaPeriodText,
                     mandalaDataText,
-                    mandalaMapTable,
+                    mandalaMapView,
                     selectedPeriodDays
                 )
             }
@@ -77,13 +75,13 @@ class MandalaDataActivity : AppCompatActivity() {
     private fun updateMandalaDisplay(
         mandalaPeriodText: TextView,
         mandalaDataText: TextView,
-        mandalaMapTable: TableLayout,
+        mandalaMapView: MandalaMapView,
         periodDays: Int
     ) {
         val records = getRecordsInPeriod(periodDays)
         mandalaPeriodText.text = buildPeriodText(records)
         mandalaDataText.text = buildMandalaText(records)
-        showMandalaMap(mandalaMapTable, records)
+        showMandalaMap(mandalaMapView, records)
     }
 
     private fun buildPeriodText(records: List<JSONObject>): String {
@@ -163,56 +161,43 @@ class MandalaDataActivity : AppCompatActivity() {
         return Regex("^\\d+").find(value)?.value.orEmpty()
     }
 
-    private fun showMandalaMap(table: TableLayout, records: List<JSONObject>) {
-        table.removeAllViews()
-        val cells = buildMandalaCells(records)
-
-        table.addView(createHeaderRow())
-        for (movement in 1..6) {
-            val row = TableRow(this)
-            row.addView(createCell("動$movement", isHeader = true))
-            for (pain in 1..6) {
-                row.addView(createCell(cells[movement - 1][pain - 1].joinToString(",")))
-            }
-            table.addView(row)
-        }
-    }
-
-    private fun buildMandalaCells(records: List<JSONObject>): Array<Array<MutableList<String>>> {
-        val cells = Array(6) { Array(6) { mutableListOf<String>() } }
-
-        for ((displayIndex, record) in records.withIndex()) {
+    private fun showMandalaMap(mapView: MandalaMapView, records: List<JSONObject>) {
+        val points = records.mapIndexedNotNull { displayIndex, record ->
             val pain = extractLeadingNumber(record.optString("pain_level")).toIntOrNull()
             val movement = extractLeadingNumber(record.optString("movement")).toIntOrNull()
-            if (pain != null && movement != null && pain in 1..6 && movement in 1..6) {
-                cells[movement - 1][pain - 1].add((displayIndex + 1).toString())
+            val recordDate = parseRecordDate(record)
+            if (pain != null && movement != null && recordDate != null && pain in 1..6 && movement in 1..6) {
+                MandalaMapView.Point(
+                    pain = pain,
+                    movement = movement,
+                    label = (displayIndex + 1).toString(),
+                    color = colorForRecordDate(recordDate)
+                )
+            } else {
+                null
             }
         }
-
-        return cells
+        mapView.setPoints(points)
     }
 
-    private fun createHeaderRow(): TableRow {
-        val row = TableRow(this)
-        row.addView(createCell("", isHeader = true))
-        for (pain in 1..6) {
-            row.addView(createCell("痛$pain", isHeader = true))
+    private fun colorForRecordDate(recordDate: Date): Int {
+        val todayStart = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.time
+        val daysAgo = ((todayStart.time - recordDate.time) / MILLIS_PER_DAY).toInt()
+        return when {
+            daysAgo < 7 -> Color.rgb(30, 96, 190)
+            daysAgo < 14 -> Color.rgb(16, 142, 113)
+            daysAgo < 28 -> Color.rgb(230, 184, 48)
+            daysAgo < 56 -> Color.rgb(226, 126, 42)
+            else -> Color.rgb(194, 57, 52)
         }
-        return row
     }
 
-    private fun createCell(text: String, isHeader: Boolean = false): TextView {
-        val cellSize = (cellSizeDp * resources.displayMetrics.density).toInt()
-        return TextView(this).apply {
-            layoutParams = TableRow.LayoutParams(cellSize, cellSize)
-            background = getDrawable(R.drawable.mandala_cell_background)
-            gravity = Gravity.CENTER
-            setText(text)
-            textSize = if (isHeader) 13f else 16f
-            setTextColor(getColor(R.color.text_primary))
-            if (isHeader) {
-                setTypeface(typeface, android.graphics.Typeface.BOLD)
-            }
-        }
+    companion object {
+        private const val MILLIS_PER_DAY = 24L * 60L * 60L * 1000L
     }
 }

@@ -103,11 +103,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp">
 
-            <TableLayout
-                android:id="@+id/mandalaMapTable"
+            <com.example.painrecord001.MandalaMapView
+                android:id="@+id/mandalaMapView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:stretchColumns="*" />
+                android:layout_height="wrap_content" />
         </HorizontalScrollView>
 
         <Button
