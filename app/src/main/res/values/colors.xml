@@ -14,8 +14,8 @@
     <color name="text_primary">#FF20242A</color>
     <color name="text_secondary">#FF64707D</color>
     <color name="text_hint">#FF8B949E</color>
-    <color name="accent">#FF2F7D6B</color>
-    <color name="mandala_button">#FF3F5F8F</color>
-    <color name="clear_button">#FFE1E5EA</color>
+    <color name="accent">#FF108E71</color>
+    <color name="mandala_button">#FF1F4C8E</color>
+    <color name="clear_button">#FFF8EDE3</color>
     <color name="delete_button">#FFB33A3A</color>
 </resources>

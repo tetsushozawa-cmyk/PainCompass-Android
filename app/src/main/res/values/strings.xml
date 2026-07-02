@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">線維筋痛症ダイアリー</string>
-    <string name="main_title">線維筋痛症ダイアリー</string>
+    <string name="app_name">疼痛コンパス</string>
+    <string name="main_title">疼痛コンパス</string>
+    <string name="main_subtitle">線維筋痛症ダイアリー</string>
     <string name="open_record_input">記録を入力する</string>
     <string name="open_saved_records">保存を見る</string>
     <string name="open_mandala_data">曼荼羅用データ</string>

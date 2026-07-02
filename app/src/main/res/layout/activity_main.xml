@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/screen_background"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:paddingStart="24dp"
+    android:paddingTop="152dp"
+    android:paddingEnd="24dp"
+    android:paddingBottom="24dp">
 
     <TextView
         android:layout_width="match_parent"
@@ -13,42 +17,63 @@
         android:gravity="center"
         android:text="@string/main_title"
         android:textColor="@color/text_primary"
-        android:textSize="28sp"
+        android:textSize="32sp"
         android:textStyle="bold" />
 
-    <Button
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/main_subtitle"
+        android:textColor="@color/text_secondary"
+        android:textSize="18sp" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/openRecordInputButton"
         android:layout_width="match_parent"
         android:layout_height="84dp"
-        android:layout_marginTop="36dp"
-        android:backgroundTint="@color/accent"
+        android:layout_marginTop="188dp"
+        android:elevation="2dp"
+        android:stateListAnimator="@null"
         android:text="@string/open_record_input"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:backgroundTint="#108E71"
+        app:cornerRadius="38dp"
+        app:rippleColor="#22000000" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/openSavedRecordsButton"
         android:layout_width="match_parent"
         android:layout_height="84dp"
         android:layout_marginTop="64dp"
-        android:backgroundTint="@color/clear_button"
+        android:elevation="2dp"
+        android:stateListAnimator="@null"
         android:text="@string/open_saved_records"
         android:textAllCaps="false"
-        android:textColor="@color/text_primary"
+        android:textColor="@color/black"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:backgroundTint="#F8EDE3"
+        app:cornerRadius="38dp"
+        app:rippleColor="#18000000" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/openMandalaDataButton"
         android:layout_width="match_parent"
         android:layout_height="84dp"
         android:layout_marginTop="64dp"
-        android:backgroundTint="@color/mandala_button"
+        android:elevation="2dp"
+        android:stateListAnimator="@null"
         android:text="@string/open_mandala_data"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:backgroundTint="#1F4C8E"
+        app:cornerRadius="38dp"
+        app:rippleColor="#22000000" />
 </LinearLayout>
