@@ -19,6 +19,18 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
+        <Button
+            android:id="@+id/savedRecordsTopReturnToTopButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/clear_button"
+            android:text="@string/return_to_top"
+            android:textAllCaps="false"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/emptyRecordsText"
             android:layout_width="match_parent"

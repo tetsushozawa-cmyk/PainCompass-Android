@@ -19,6 +19,9 @@ class SavedRecordsActivity : AppCompatActivity() {
 
         recordsContainer = findViewById(R.id.recordsContainer)
         emptyText = findViewById(R.id.emptyRecordsText)
+        findViewById<Button>(R.id.savedRecordsTopReturnToTopButton).setOnClickListener {
+            returnToTop()
+        }
         findViewById<Button>(R.id.savedRecordsReturnToTopButton).setOnClickListener {
             returnToTop()
         }
