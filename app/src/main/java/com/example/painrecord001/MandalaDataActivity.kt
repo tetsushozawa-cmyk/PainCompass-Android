@@ -27,6 +27,7 @@ class MandalaDataActivity : AppCompatActivity() {
         val mandalaPeriodText = findViewById<TextView>(R.id.mandalaPeriodText)
         val mandalaDataText = findViewById<TextView>(R.id.mandalaDataText)
         val mandalaMapView = findViewById<MandalaMapView>(R.id.mandalaMapView)
+        val currentPositionItems = findViewById<LinearLayout>(R.id.mandalaCurrentPositionLegendItems)
         val legendItems = findViewById<LinearLayout>(R.id.mandalaColorLegendItems)
         val periodButtons = listOf(
             findViewById<Button>(R.id.periodOneWeekButton) to 7,
@@ -37,12 +38,20 @@ class MandalaDataActivity : AppCompatActivity() {
         )
         val returnToTopButton = findViewById<Button>(R.id.mandalaReturnToTopButton)
 
+        setupCurrentPositionLegend(currentPositionItems)
         setupColorLegend(legendItems)
         setupPeriodButtons(periodButtons, mandalaPeriodText, mandalaDataText, mandalaMapView)
         updateMandalaDisplay(mandalaPeriodText, mandalaDataText, mandalaMapView, selectedPeriodDays)
         returnToTopButton.setOnClickListener {
             returnToTop()
         }
+    }
+
+    private fun setupCurrentPositionLegend(currentPositionItems: LinearLayout) {
+        currentPositionItems.removeAllViews()
+        currentPositionItems.addView(
+            createStarLegendRow(getString(R.string.mandala_current_position_latest))
+        )
     }
 
     private fun setupColorLegend(legendItems: LinearLayout) {
@@ -91,6 +100,46 @@ class MandalaDataActivity : AppCompatActivity() {
         }
 
         row.addView(circle)
+        row.addView(text)
+        return row
+    }
+
+    private fun createStarLegendRow(label: String): LinearLayout {
+        val density = resources.displayMetrics.density
+        val row = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                topMargin = (6f * density).toInt()
+            }
+        }
+
+        val star = TextView(this).apply {
+            text = "★"
+            setTextColor(Color.rgb(245, 184, 32))
+            textSize = 15f
+            gravity = Gravity.CENTER
+            layoutParams = LinearLayout.LayoutParams(
+                (14f * density).toInt(),
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+        }
+        val text = TextView(this).apply {
+            setText(label)
+            setTextColor(getColor(R.color.text_primary))
+            textSize = 15f
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                marginStart = (10f * density).toInt()
+            }
+        }
+
+        row.addView(star)
         row.addView(text)
         return row
     }
