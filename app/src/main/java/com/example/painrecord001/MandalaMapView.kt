@@ -7,8 +7,6 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
-import kotlin.math.max
-
 class MandalaMapView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
@@ -17,7 +15,14 @@ class MandalaMapView @JvmOverloads constructor(
         val pain: Int,
         val movement: Int,
         val label: String,
-        val color: Int
+        val color: Int,
+        val isLatest: Boolean = false
+    )
+
+    private data class PositionedPoint(
+        val point: Point,
+        val x: Float,
+        val y: Float
     )
 
     private val cellSize = 52f * resources.displayMetrics.density
@@ -45,6 +50,12 @@ class MandalaMapView @JvmOverloads constructor(
         color = Color.WHITE
         textAlign = Paint.Align.CENTER
         textSize = 11f * resources.displayMetrics.scaledDensity
+        typeface = android.graphics.Typeface.DEFAULT_BOLD
+    }
+    private val latestStarPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.rgb(245, 184, 32)
+        textAlign = Paint.Align.CENTER
+        textSize = 24f * resources.displayMetrics.scaledDensity
         typeface = android.graphics.Typeface.DEFAULT_BOLD
     }
 
@@ -99,20 +110,44 @@ class MandalaMapView @JvmOverloads constructor(
     }
 
     private fun drawPoints(canvas: Canvas) {
+        val positionedPoints = buildPositionedPoints()
+
+        for (positionedPoint in positionedPoints.filterNot { it.point.isLatest }) {
+            pointPaint.color = positionedPoint.point.color
+            canvas.drawCircle(positionedPoint.x, positionedPoint.y, pointRadius, pointPaint)
+            drawCenteredText(
+                canvas,
+                positionedPoint.point.label,
+                positionedPoint.x,
+                positionedPoint.y,
+                pointTextPaint
+            )
+        }
+
+        for (positionedPoint in positionedPoints.filter { it.point.isLatest }) {
+            drawCenteredText(
+                canvas,
+                positionedPoint.point.label,
+                positionedPoint.x,
+                positionedPoint.y,
+                latestStarPaint
+            )
+        }
+    }
+
+    private fun buildPositionedPoints(): List<PositionedPoint> {
         val sameCellCounts = mutableMapOf<Pair<Int, Int>, Int>()
-        for (point in points) {
+        return points.map { point ->
             val cellKey = point.pain to point.movement
             val count = sameCellCounts.getOrDefault(cellKey, 0)
             sameCellCounts[cellKey] = count + 1
 
             val center = centerOf(point)
-            val offset = pointOffset(count)
+            val offset = pointOffset(count, point.isLatest)
             val x = center.first + offset.first
             val y = center.second + offset.second
 
-            pointPaint.color = point.color
-            canvas.drawCircle(x, y, pointRadius, pointPaint)
-            drawCenteredText(canvas, point.label, x, y, pointTextPaint)
+            PositionedPoint(point, x, y)
         }
     }
 
@@ -120,14 +155,16 @@ class MandalaMapView @JvmOverloads constructor(
         return ((point.pain + 0.5f) * cellSize) to ((point.movement + 0.5f) * cellSize)
     }
 
-    private fun pointOffset(index: Int): Pair<Float, Float> {
+    private fun pointOffset(index: Int, isLatest: Boolean): Pair<Float, Float> {
         val offset = 12f * resources.displayMetrics.density
+        if (isLatest) return 0f to 0f
+
         return when (index % 5) {
             1 -> -offset to -offset
             2 -> offset to -offset
             3 -> -offset to offset
             4 -> offset to offset
-            else -> 0f to 0f
+            else -> offset to 0f
         }
     }
 

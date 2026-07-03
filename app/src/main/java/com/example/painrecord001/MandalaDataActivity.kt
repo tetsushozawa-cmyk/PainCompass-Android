@@ -224,8 +224,9 @@ class MandalaDataActivity : AppCompatActivity() {
                 MandalaMapView.Point(
                     pain = pain,
                     movement = movement,
-                    label = (displayIndex + 1).toString(),
-                    color = colorForRecordDate(recordDate)
+                    label = if (displayIndex == 0) "★" else (displayIndex + 1).toString(),
+                    color = colorForRecordDate(recordDate),
+                    isLatest = displayIndex == 0
                 )
             } else {
                 null
