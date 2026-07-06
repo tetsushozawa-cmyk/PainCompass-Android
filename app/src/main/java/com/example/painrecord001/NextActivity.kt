@@ -1,7 +1,6 @@
 package com.example.painrecord001
 
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.Toast
@@ -19,11 +18,23 @@ class NextActivity : AppCompatActivity() {
         val activitySpinner = findViewById<Spinner>(R.id.activitySpinner)
         val saveButton = findViewById<Button>(R.id.environmentSaveButton)
         val returnToTopButton = findViewById<Button>(R.id.environmentReturnToTopButton)
+        var selectedWeather = ""
+        var selectedTemperature = ""
+        var selectedPressure = ""
+        var selectedActivity = ""
 
-        setupSpinner(weatherSpinner, R.array.weather_options)
-        setupSpinner(temperatureSpinner, R.array.temperature_options)
-        setupSpinner(pressureSpinner, R.array.pressure_options)
-        setupSpinner(activitySpinner, R.array.daily_activity_options)
+        SpinnerHelper.setupSpinner(this, weatherSpinner, R.array.weather_options) {
+            selectedWeather = it
+        }
+        SpinnerHelper.setupSpinner(this, temperatureSpinner, R.array.temperature_options) {
+            selectedTemperature = it
+        }
+        SpinnerHelper.setupSpinner(this, pressureSpinner, R.array.pressure_options) {
+            selectedPressure = it
+        }
+        SpinnerHelper.setupSpinner(this, activitySpinner, R.array.daily_activity_options) {
+            selectedActivity = it
+        }
 
         saveButton.setOnClickListener {
             val dateTime = intent.getStringExtra("date_time").orEmpty()
@@ -33,10 +44,6 @@ class NextActivity : AppCompatActivity() {
             val brainFog = intent.getStringExtra("brain_fog").orEmpty()
             val painTime = intent.getStringExtra("pain_time").orEmpty()
             val memo = intent.getStringExtra("memo").orEmpty()
-            val weather = weatherSpinner.selectedItem.toString()
-            val temperature = temperatureSpinner.selectedItem.toString()
-            val pressure = pressureSpinner.selectedItem.toString()
-            val activity = activitySpinner.selectedItem.toString()
 
             getSharedPreferences("diary_records", MODE_PRIVATE)
                 .edit()
@@ -46,10 +53,10 @@ class NextActivity : AppCompatActivity() {
                 .putString("latest_sleep", sleep)
                 .putString("latest_brain_fog", brainFog)
                 .putString("latest_pain_time", painTime)
-                .putString("latest_weather", weather)
-                .putString("latest_temperature", temperature)
-                .putString("latest_pressure", pressure)
-                .putString("latest_daily_activity", activity)
+                .putString("latest_weather", selectedWeather)
+                .putString("latest_temperature", selectedTemperature)
+                .putString("latest_pressure", selectedPressure)
+                .putString("latest_daily_activity", selectedActivity)
                 .putString("latest_memo", memo)
                 .apply()
 
@@ -62,10 +69,10 @@ class NextActivity : AppCompatActivity() {
                     .put("sleep", sleep)
                     .put("brain_fog", brainFog)
                     .put("pain_time", painTime)
-                    .put("weather", weather)
-                    .put("temperature", temperature)
-                    .put("pressure", pressure)
-                    .put("daily_activity", activity)
+                    .put("weather", selectedWeather)
+                    .put("temperature", selectedTemperature)
+                    .put("pressure", selectedPressure)
+                    .put("daily_activity", selectedActivity)
                     .put("memo", memo)
             )
 
@@ -75,16 +82,6 @@ class NextActivity : AppCompatActivity() {
         returnToTopButton.setOnClickListener {
             returnToTop()
         }
-    }
-
-    private fun setupSpinner(spinner: Spinner, optionsResId: Int) {
-        val adapter = ArrayAdapter.createFromResource(
-            this,
-            optionsResId,
-            android.R.layout.simple_spinner_item
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
     }
 
 }

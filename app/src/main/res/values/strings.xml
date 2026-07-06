@@ -12,9 +12,12 @@
     <string name="brain_fog_label">頭の働き（ブレインフォグ）</string>
     <string name="pain_time_label">痛い時間帯</string>
     <string name="memo_label">メモ</string>
+    <string name="memo_free_label">メモ（自由記載）</string>
+    <string name="memo_page_title">メモ入力</string>
     <string name="memo_hint">今日の状態を入力</string>
     <string name="save">保存</string>
     <string name="next">次へ</string>
+    <string name="back">戻る</string>
     <string name="next_page_title">次のページ</string>
     <string name="environment_page_title">環境と日常活動</string>
     <string name="weather_label">天候</string>

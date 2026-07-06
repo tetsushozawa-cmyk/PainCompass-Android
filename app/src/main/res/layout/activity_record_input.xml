@@ -152,13 +152,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="@string/memo_label"
+            android:text="@string/memo_free_label"
             android:textColor="@color/text_primary"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/memoEditText"
+            android:id="@+id/dateScreenMemoEditText"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:layout_marginTop="10dp"
@@ -172,22 +172,10 @@
             android:textSize="16sp" />
 
         <Button
-            android:id="@+id/saveButton"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="@color/accent"
-            android:text="@string/save"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <Button
             android:id="@+id/nextButton"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="24dp"
             android:backgroundTint="@color/clear_button"
             android:text="@string/next"
             android:textAllCaps="false"
