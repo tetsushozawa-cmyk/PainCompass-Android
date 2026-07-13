@@ -12,19 +12,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PainRecord001">
         <activity
-            android:name=".MandalaDataActivity"
+            android:name="com.tetsushozawa.paincompass.MandalaDataActivity"
             android:exported="false" />
         <activity
-            android:name=".SavedRecordsActivity"
+            android:name="com.tetsushozawa.paincompass.SavedRecordsActivity"
             android:exported="false" />
         <activity
-            android:name=".NextActivity"
+            android:name="com.tetsushozawa.paincompass.NextActivity"
             android:exported="false" />
         <activity
-            android:name=".RecordInputActivity"
+            android:name="com.tetsushozawa.paincompass.RecordInputActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.tetsushozawa.paincompass.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

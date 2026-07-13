@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp">
 
-            <com.example.painrecord001.MandalaMapView
+            <com.tetsushozawa.paincompass.MandalaMapView
                 android:id="@+id/mandalaMapView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
