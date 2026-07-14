@@ -37,6 +37,8 @@
     <string name="unknown_date_time">日時なし</string>
     <string name="return_to_top">最初に戻る</string>
     <string name="mandala_data_title">曼荼羅用データ</string>
+    <string name="mandala_records_expanded">▼ 記録一覧</string>
+    <string name="mandala_records_collapsed">▶ 記録一覧</string>
     <string name="mandala_map_title">6×6曼荼羅マップ</string>
     <string name="mandala_record_format">%1$d回前　痛み：%2$s　動ける状態：%3$s</string>
     <string name="mandala_period_format">対象期間：%1$s ～ %2$s</string>
