@@ -178,10 +178,10 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="24dp"
-            android:backgroundTint="@color/clear_button"
+            android:backgroundTint="@color/accent"
             android:text="@string/next"
             android:textAllCaps="false"
-            android:textColor="@color/text_primary"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -190,10 +190,10 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="12dp"
-            android:backgroundTint="@color/clear_button"
+            android:backgroundTint="@color/mandala_button"
             android:text="@string/return_to_top"
             android:textAllCaps="false"
-            android:textColor="@color/text_primary"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
 

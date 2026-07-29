@@ -197,9 +197,9 @@ class MandalaDataActivity : AppCompatActivity() {
         for ((button, days) in periodButtons) {
             val isSelected = days == selectedPeriodDays
             button.backgroundTintList = ColorStateList.valueOf(
-                getColor(if (isSelected) R.color.accent else R.color.clear_button)
+                getColor(if (isSelected) R.color.accent else R.color.mandala_button)
             )
-            button.setTextColor(getColor(if (isSelected) R.color.white else R.color.text_primary))
+            button.setTextColor(getColor(R.color.white))
         }
     }
 
