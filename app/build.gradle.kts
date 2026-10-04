@@ -12,10 +12,9 @@ android {
 
     defaultConfig {
         applicationId = "com.tetsushozawa.paincompass"
-        minSdk = 24
-        targetSdk = 36
-        versionCode = 3
-        versionName = "1.0.2"
+        minSdk = 26
+        versionCode = 4
+        versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -43,4 +42,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
+    implementation(libs.androidx.health.connect.client)
 }
