@@ -40,7 +40,23 @@
             android:textColor="@color/text_primary"
             android:textSize="18sp"
             android:textStyle="bold" />
+        <TextView
+            android:id="@+id/yesterdayStepsText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="昨日の歩数：-- 歩"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp" />
 
+        <TextView
+            android:id="@+id/dayBeforeYesterdayStepsText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="一昨日の歩数：-- 歩"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp" />
         <EditText
             android:id="@+id/dateScreenMemoEditText"
             android:layout_width="match_parent"
