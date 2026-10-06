@@ -63,6 +63,7 @@ class SavedRecordsActivity : AppCompatActivity() {
     private fun buildRecordSummary(record: JSONObject): String {
         return buildString {
             appendLine("${getString(R.string.date_time_label)}: ${record.optString("date_time", getString(R.string.unknown_date_time))}")
+            appendLine("昨日の歩数： ${record.optLong("yesterday_steps", 0L)} 歩")
             appendLine("${getString(R.string.pain_level_label)}: ${record.optString("pain_level")}")
             appendLine("${getString(R.string.movement_label)}: ${record.optString("movement")}")
             appendLine("${getString(R.string.sleep_label)}: ${record.optString("sleep")}")

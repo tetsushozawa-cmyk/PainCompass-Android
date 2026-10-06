@@ -44,7 +44,7 @@ class NextActivity : AppCompatActivity() {
             val brainFog = intent.getStringExtra("brain_fog").orEmpty()
             val painTime = intent.getStringExtra("pain_time").orEmpty()
             val memo = intent.getStringExtra("memo").orEmpty()
-
+            val yesterdaySteps = intent.getLongExtra("yesterday_steps", 0L)
             getSharedPreferences("diary_records", MODE_PRIVATE)
                 .edit()
                 .putString("latest_date_time", dateTime)
@@ -57,6 +57,7 @@ class NextActivity : AppCompatActivity() {
                 .putString("latest_temperature", selectedTemperature)
                 .putString("latest_pressure", selectedPressure)
                 .putString("latest_daily_activity", selectedActivity)
+                .putLong("latest_yesterday_steps", yesterdaySteps)
                 .putString("latest_memo", memo)
                 .apply()
 
@@ -74,6 +75,7 @@ class NextActivity : AppCompatActivity() {
                     .put("pressure", selectedPressure)
                     .put("daily_activity", selectedActivity)
                     .put("memo", memo)
+                    .put("yesterday_steps", yesterdaySteps)
             )
 
             Toast.makeText(this, "保存しました", Toast.LENGTH_SHORT).show()

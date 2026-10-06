@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import java.time.ZonedDateTime
 import kotlinx.coroutines.launch
 class RecordInputActivity : AppCompatActivity() {
+    private var yesterdaySteps: Long = 0L
     private val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault())
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,6 +68,7 @@ class RecordInputActivity : AppCompatActivity() {
                 putExtra("movement", selectedMovement)
                 putExtra("sleep", selectedSleep)
                 putExtra("brain_fog", selectedBrainFog)
+                putExtra("yesterday_steps", yesterdaySteps)
                 putExtra("memo", memoEditText.text.toString())
                 putExtra(
                     "pain_time",
@@ -123,7 +125,7 @@ class RecordInputActivity : AppCompatActivity() {
                 )
             )
 
-            val yesterdaySteps = yesterdayResponse.records.sumOf { it.count }
+            yesterdaySteps = yesterdayResponse.records.sumOf { it.count }
             val dayBeforeYesterdaySteps =
                 dayBeforeYesterdayResponse.records.sumOf { it.count }
 
