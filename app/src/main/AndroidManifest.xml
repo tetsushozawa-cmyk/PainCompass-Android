@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.health.READ_STEPS" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -20,29 +22,36 @@
         </activity>
 
         <activity-alias
-            android:name="ViewPermissionUsageActivity"
+            android:name=".ViewPermissionUsageActivity"
             android:exported="true"
             android:permission="android.permission.START_VIEW_PERMISSION_USAGE"
             android:targetActivity=".PermissionsRationaleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW_PERMISSION_USAGE" />
+
                 <category android:name="android.intent.category.HEALTH_PERMISSIONS" />
             </intent-filter>
         </activity-alias>
+
+        <service
+            android:name=".PressureRecordingService"
+            android:enabled="true"
+            android:exported="false" />
+
         <activity
-            android:name="com.tetsushozawa.paincompass.MandalaDataActivity"
+            android:name=".MandalaDataActivity"
             android:exported="false" />
         <activity
-            android:name="com.tetsushozawa.paincompass.SavedRecordsActivity"
+            android:name=".SavedRecordsActivity"
             android:exported="false" />
         <activity
-            android:name="com.tetsushozawa.paincompass.NextActivity"
+            android:name=".NextActivity"
             android:exported="false" />
         <activity
-            android:name="com.tetsushozawa.paincompass.RecordInputActivity"
+            android:name=".RecordInputActivity"
             android:exported="false" />
         <activity
-            android:name="com.tetsushozawa.paincompass.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,6 +59,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".OlderWeeksMandalaActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".StepsMandalaActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

@@ -72,6 +72,22 @@ class SavedRecordsActivity : AppCompatActivity() {
             appendLine("${getString(R.string.weather_label)}: ${record.optString("weather")}")
             appendLine("${getString(R.string.temperature_label)}: ${record.optString("temperature")}")
             appendLine("${getString(R.string.pressure_label)}: ${record.optString("pressure")}")
+            val pressureHpa = record.optDouble("pressure_hpa", Double.NaN)
+            val measuredAt = record.optLong("pressure_measured_at", 0L)
+
+            if (!pressureHpa.isNaN() && measuredAt > 0L) {
+                val time = java.text.SimpleDateFormat(
+                    "HH:mm",
+                    java.util.Locale.getDefault()
+                ).format(java.util.Date(measuredAt))
+
+                appendLine(
+                    "実測気圧：%.1f hPa（%s測定）".format(
+                        pressureHpa,
+                        time
+                    )
+                )
+            }
             appendLine("${getString(R.string.daily_activity_label)}: ${record.optString("daily_activity")}")
             appendLine("${getString(R.string.memo_label)}: ${record.optString("memo")}")
         }.trim()

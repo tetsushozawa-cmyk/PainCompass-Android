@@ -44,7 +44,25 @@ class NextActivity : AppCompatActivity() {
             val brainFog = intent.getStringExtra("brain_fog").orEmpty()
             val painTime = intent.getStringExtra("pain_time").orEmpty()
             val memo = intent.getStringExtra("memo").orEmpty()
-            val yesterdaySteps = intent.getLongExtra("yesterday_steps", 0L)
+
+
+
+            val yesterdaySteps =
+                intent.getLongExtra("yesterday_steps", 0L)
+
+            val dayBeforeYesterdaySteps =
+                intent.getLongExtra("day_before_yesterday_steps", 0L)
+
+            val pressureHpa = intent.getDoubleExtra(
+                "pressure_hpa",
+                Double.NaN
+            )
+
+
+            val pressureMeasuredAt = intent.getLongExtra(
+                "pressure_measured_at",
+                0L
+            )
             getSharedPreferences("diary_records", MODE_PRIVATE)
                 .edit()
                 .putString("latest_date_time", dateTime)
@@ -58,9 +76,16 @@ class NextActivity : AppCompatActivity() {
                 .putString("latest_pressure", selectedPressure)
                 .putString("latest_daily_activity", selectedActivity)
                 .putLong("latest_yesterday_steps", yesterdaySteps)
-                .putString("latest_memo", memo)
-                .apply()
 
+                .putLong("latest_day_before_yesterday_steps", dayBeforeYesterdaySteps)
+
+                .putString("latest_memo", memo)
+                .putString(
+                    "latest_pressure_hpa",
+                    if (pressureHpa.isNaN()) "" else pressureHpa.toString()
+                )
+                .putLong("latest_pressure_measured_at", pressureMeasuredAt)
+                .apply()
             DiaryRecordStorage.addRecord(
                 this,
                 JSONObject()
@@ -76,6 +101,14 @@ class NextActivity : AppCompatActivity() {
                     .put("daily_activity", selectedActivity)
                     .put("memo", memo)
                     .put("yesterday_steps", yesterdaySteps)
+
+                    .put("day_before_yesterday_steps", dayBeforeYesterdaySteps)
+
+                    .put(
+                        "pressure_hpa",
+                        if (pressureHpa.isNaN()) JSONObject.NULL else pressureHpa
+                    )
+                    .put("pressure_measured_at", pressureMeasuredAt)
             )
 
             Toast.makeText(this, "保存しました", Toast.LENGTH_SHORT).show()

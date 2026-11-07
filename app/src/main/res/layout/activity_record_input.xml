@@ -38,7 +38,7 @@
             android:layout_marginTop="24dp"
             android:text="@string/memo_free_label"
             android:textColor="@color/text_primary"
-            android:textSize="18sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
         <TextView
             android:id="@+id/yesterdayStepsText"
@@ -57,6 +57,16 @@
             android:text="一昨日の歩数：-- 歩"
             android:textColor="@color/text_primary"
             android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/currentPressureText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="気圧：測定値を確認中"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp" />
+
         <EditText
             android:id="@+id/dateScreenMemoEditText"
             android:layout_width="match_parent"

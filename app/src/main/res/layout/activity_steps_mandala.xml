@@ -1,0 +1,133 @@
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7F8FA"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="歩数 × 疼痛の曼荼羅"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/yesterdayStepsButton"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:text="昨日の歩数"
+                android:textAllCaps="false"
+                android:backgroundTint="@color/mandala_button"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/beforeYesterdayStepsButton"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="一昨日の歩数"
+                android:textAllCaps="false"
+                android:backgroundTint="@color/mandala_button"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/stepsMandalaPeriodText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="昨日の歩数と疼痛"
+            android:textSize="16sp"
+            android:textColor="@color/text_primary" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <com.tetsushozawa.paincompass.MandalaMapView
+                android:id="@+id/stepsMandalaMapView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </HorizontalScrollView>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="歩数レベルの説明"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:text="歩1：0〜500歩&#10;歩2：501〜1,000歩&#10;歩3：1,001〜2,500歩&#10;歩4：2,501〜5,000歩&#10;歩5：5,001〜8,000歩&#10;歩6：8,001歩以上&#10;&#10;&#10;次のバージョンでは、あなたに合った歩数に変更できるようにします。"
+
+            android:textSize="16sp"
+            android:lineSpacingExtra="5dp"
+            android:textColor="@color/text_primary" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+
+            android:text="歩数は多ければよいわけではありません。ご自身のペースを崩さないようにしてください。"
+
+            android:textSize="20sp"
+            android:textStyle="bold"
+
+            android:textColor="#B77755" />
+
+
+
+        <TextView
+            android:id="@+id/stepsMandalaRecordsText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="記録を読み込み中"
+            android:textSize="16sp"
+            android:textColor="@color/text_primary" />
+
+        <Button
+            android:id="@+id/stepsMandalaBackButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="24dp"
+            android:text="元の曼荼羅に戻る"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/mandala_button"
+            android:textColor="@color/white" />
+
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="80dp" />
+
+    </LinearLayout>
+</ScrollView>

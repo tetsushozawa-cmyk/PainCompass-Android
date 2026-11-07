@@ -28,6 +28,14 @@ class MandalaMapView @JvmOverloads constructor(
     private val cellSize = 52f * resources.displayMetrics.density
     private val pointRadius = 11f * resources.displayMetrics.density
     private val points = mutableListOf<Point>()
+
+    private var useStepsAxis = false
+
+    fun setStepsAxis(enabled: Boolean) {
+        useStepsAxis = enabled
+        invalidate()
+    }
+
     private val gridPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.rgb(213, 217, 222)
         strokeWidth = 1f * resources.displayMetrics.density
@@ -86,11 +94,16 @@ class MandalaMapView @JvmOverloads constructor(
                 val left = column * cellSize
                 val top = row * cellSize
                 canvas.drawRect(RectF(left, top, left + cellSize, top + cellSize), gridPaint)
+
                 val label = when {
                     row == 0 && column > 0 -> "痛$column"
-                    column == 0 && row > 0 -> "動$row"
+
+                    column == 0 && row > 0 ->
+                        if (useStepsAxis) "歩${7 - row}" else "動$row"
+
                     else -> ""
                 }
+
                 if (label.isNotEmpty()) {
                     drawCenteredText(canvas, label, left + cellSize / 2, top + cellSize / 2, textPaint)
                 }
@@ -151,8 +164,16 @@ class MandalaMapView @JvmOverloads constructor(
         }
     }
 
+
     private fun centerOf(point: Point): Pair<Float, Float> {
-        return ((point.pain + 0.5f) * cellSize) to ((point.movement + 0.5f) * cellSize)
+        val row = if (useStepsAxis) {
+            7 - point.movement
+        } else {
+            point.movement
+        }
+
+        return ((point.pain + 0.5f) * cellSize) to
+                ((row + 0.5f) * cellSize)
     }
 
     private fun pointOffset(index: Int, isLatest: Boolean): Pair<Float, Float> {

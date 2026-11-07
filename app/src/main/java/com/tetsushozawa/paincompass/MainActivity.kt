@@ -35,6 +35,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val pressureServiceIntent = Intent(this, PressureRecordingService::class.java)
+        startService(pressureServiceIntent)
         val yesterdayStepsText = findViewById<TextView>(R.id.yesterdayStepsText)
         val healthConnectClient = HealthConnectClient.getOrCreate(this)
         lifecycleScope.launch {

@@ -105,5 +105,6 @@
             app:backgroundTint="@color/mandala_button"
             app:cornerRadius="38dp"
             app:rippleColor="#22000000" />
+
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

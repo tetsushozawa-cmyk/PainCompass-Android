@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import android.content.Intent
 
 class MandalaDataActivity : AppCompatActivity() {
     private val cellSizeDp = 48
@@ -57,6 +58,25 @@ class MandalaDataActivity : AppCompatActivity() {
         returnToTopButton.setOnClickListener {
             returnToTop()
         }
+
+        val olderWeeksButton =
+            findViewById<Button>(R.id.mandalaOlderWeeksButton)
+
+
+        olderWeeksButton.setOnClickListener {
+            val intent = Intent(this, OlderWeeksMandalaActivity::class.java)
+            startActivity(intent)
+        }
+
+        val stepsButton =
+            findViewById<Button>(R.id.mandalaStepsButton)
+
+        stepsButton.setOnClickListener {
+            val intent = Intent(this, StepsMandalaActivity::class.java)
+            startActivity(intent)
+        }
+
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -275,6 +295,39 @@ class MandalaDataActivity : AppCompatActivity() {
             val recordDate = parseRecordDate(record) ?: continue
 
             if (!recordDate.before(startDate) && !recordDate.after(endDate)) {
+                selectedRecords.add(record)
+            }
+        }
+
+        return selectedRecords
+    }
+
+    private fun getRecordsForWeeks13To26(): List<JSONObject> {
+        val records = DiaryRecordStorage.getRecords(this)
+
+        val todayStart = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+
+        val startDate = (todayStart.clone() as Calendar).apply {
+            add(Calendar.DAY_OF_YEAR, -181)
+        }.time
+
+        val endDate = (todayStart.clone() as Calendar).apply {
+            add(Calendar.DAY_OF_YEAR, -84)
+        }.time
+
+        val selectedRecords = mutableListOf<JSONObject>()
+
+        for (index in records.length() - 1 downTo 0) {
+            val record = records.getJSONObject(index)
+            val recordDate = parseRecordDate(record) ?: continue
+
+            if (!recordDate.before(startDate) &&
+                recordDate.before(endDate)) {
                 selectedRecords.add(record)
             }
         }

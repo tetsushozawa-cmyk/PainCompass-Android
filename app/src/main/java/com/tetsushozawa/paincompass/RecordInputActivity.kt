@@ -18,8 +18,10 @@ import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.lifecycle.lifecycleScope
 import java.time.ZonedDateTime
 import kotlinx.coroutines.launch
+
 class RecordInputActivity : AppCompatActivity() {
     private var yesterdaySteps: Long = 0L
+    private var dayBeforeYesterdaySteps: Long = 0L
     private val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault())
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +50,29 @@ class RecordInputActivity : AppCompatActivity() {
 
         dateTimeText.text = dateFormat.format(Date())
         loadRecentSteps()
+
+        val pressureText = findViewById<TextView>(R.id.currentPressureText)
+
+        val pressureRepository = PressureRepository(this)
+        val latestPressure = pressureRepository.latest(1).firstOrNull()
+        pressureRepository.close()
+
+        if (latestPressure != null) {
+            val pressureTime = SimpleDateFormat(
+                "HH:mm",
+                Locale.getDefault()
+            ).format(Date(latestPressure.timestamp))
+
+            pressureText.text = String.format(
+                Locale.getDefault(),
+                "気圧：%.1f hPa（%s測定）",
+                latestPressure.pressureHpa,
+                pressureTime
+            )
+        } else {
+            pressureText.text = "気圧：測定記録なし"
+        }
+
         SpinnerHelper.setupSpinner(this, painLevelSpinner, R.array.pain_level_options) {
             selectedPainLevel = it
         }
@@ -69,6 +94,17 @@ class RecordInputActivity : AppCompatActivity() {
                 putExtra("sleep", selectedSleep)
                 putExtra("brain_fog", selectedBrainFog)
                 putExtra("yesterday_steps", yesterdaySteps)
+                putExtra("day_before_yesterday_steps", dayBeforeYesterdaySteps)
+                putExtra(
+                    "pressure_hpa",
+                    latestPressure?.pressureHpa?.toDouble()
+                        ?: Double.NaN
+                )
+
+                putExtra(
+                    "pressure_measured_at",
+                    latestPressure?.timestamp ?: 0L
+                )
                 putExtra("memo", memoEditText.text.toString())
                 putExtra(
                     "pain_time",
@@ -126,7 +162,7 @@ class RecordInputActivity : AppCompatActivity() {
             )
 
             yesterdaySteps = yesterdayResponse.records.sumOf { it.count }
-            val dayBeforeYesterdaySteps =
+            dayBeforeYesterdaySteps =
                 dayBeforeYesterdayResponse.records.sumOf { it.count }
 
             findViewById<TextView>(R.id.yesterdayStepsText).text =
