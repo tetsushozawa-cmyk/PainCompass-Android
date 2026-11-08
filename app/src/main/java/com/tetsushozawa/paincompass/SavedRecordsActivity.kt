@@ -87,6 +87,30 @@ class SavedRecordsActivity : AppCompatActivity() {
                         time
                     )
                 )
+                val pressureChange = record.optDouble(
+                    "pressure_change_hpa",
+                    Double.NaN
+                )
+
+                if (!pressureChange.isNaN()) {
+                    val level = record.optInt("pressure_change_level", 99)
+
+                    val classification = when (level) {
+                        2 -> "大幅上昇"
+                        1 -> "軽度上昇"
+                        0 -> "安定"
+                        -1 -> "軽度低下"
+                        -2 -> "大幅低下"
+                        else -> "分類なし"
+                    }
+
+                    appendLine(
+                        "前日との気圧差：%+.1f hPa（%s）".format(
+                            pressureChange,
+                            classification
+                        )
+                    )
+                }
             }
             appendLine("${getString(R.string.daily_activity_label)}: ${record.optString("daily_activity")}")
             appendLine("${getString(R.string.memo_label)}: ${record.optString("memo")}")

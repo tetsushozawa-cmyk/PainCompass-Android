@@ -30,9 +30,19 @@ class MandalaMapView @JvmOverloads constructor(
     private val points = mutableListOf<Point>()
 
     private var useStepsAxis = false
+    private var usePressureAxis = false
 
     fun setStepsAxis(enabled: Boolean) {
         useStepsAxis = enabled
+        if (enabled) usePressureAxis = false
+        requestLayout()
+        invalidate()
+    }
+
+    fun setPressureAxis(enabled: Boolean) {
+        usePressureAxis = enabled
+        if (enabled) useStepsAxis = false
+        requestLayout()
         invalidate()
     }
 
@@ -74,13 +84,14 @@ class MandalaMapView @JvmOverloads constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val size = (cellSize * 7).toInt()
+        val width = (cellSize * 7).toInt()
+        val height = (cellSize * if (usePressureAxis) 6 else 7).toInt()
+
         setMeasuredDimension(
-            resolveSize(size, widthMeasureSpec),
-            resolveSize(size, heightMeasureSpec)
+            resolveSize(width, widthMeasureSpec),
+            resolveSize(height, heightMeasureSpec)
         )
     }
-
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         drawGrid(canvas)
@@ -89,7 +100,9 @@ class MandalaMapView @JvmOverloads constructor(
     }
 
     private fun drawGrid(canvas: Canvas) {
-        for (row in 0 until 7) {
+        val rowCount = if (usePressureAxis) 6 else 7
+
+        for (row in 0 until rowCount) {
             for (column in 0 until 7) {
                 val left = column * cellSize
                 val top = row * cellSize
@@ -98,8 +111,20 @@ class MandalaMapView @JvmOverloads constructor(
                 val label = when {
                     row == 0 && column > 0 -> "痛$column"
 
-                    column == 0 && row > 0 ->
-                        if (useStepsAxis) "歩${7 - row}" else "動$row"
+                    column == 0 && row > 0 -> when {
+                        usePressureAxis -> when (row) {
+                            1 -> "上+2"
+                            2 -> "上+1"
+                            3 -> "安定"
+                            4 -> "下-1"
+                            5 -> "下-2"
+                            else -> ""
+                        }
+
+                        useStepsAxis -> "歩${7 - row}"
+
+                        else -> "動$row"
+                    }
 
                     else -> ""
                 }
@@ -166,10 +191,10 @@ class MandalaMapView @JvmOverloads constructor(
 
 
     private fun centerOf(point: Point): Pair<Float, Float> {
-        val row = if (useStepsAxis) {
-            7 - point.movement
-        } else {
-            point.movement
+        val row = when {
+            usePressureAxis -> 3 - point.movement
+            useStepsAxis -> 7 - point.movement
+            else -> point.movement
         }
 
         return ((point.pain + 0.5f) * cellSize) to

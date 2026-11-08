@@ -49,7 +49,8 @@
             android:exported="false" />
         <activity
             android:name=".RecordInputActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -67,6 +68,11 @@
             android:name=".StepsMandalaActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".PressureMandalaActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

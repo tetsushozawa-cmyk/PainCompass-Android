@@ -6,6 +6,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONObject
+import java.util.Calendar
 
 class NextActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +64,8 @@ class NextActivity : AppCompatActivity() {
                 "pressure_measured_at",
                 0L
             )
+            val (pressureChangeHpa, pressureChangeLevel, pressureReferenceAt) =
+                calculatePressureChange()
             getSharedPreferences("diary_records", MODE_PRIVATE)
                 .edit()
                 .putString("latest_date_time", dateTime)
@@ -85,6 +88,19 @@ class NextActivity : AppCompatActivity() {
                     if (pressureHpa.isNaN()) "" else pressureHpa.toString()
                 )
                 .putLong("latest_pressure_measured_at", pressureMeasuredAt)
+
+                .putString(
+                    "latest_pressure_change_hpa",
+                    pressureChangeHpa?.toString() ?: ""
+                )
+                .putInt(
+                    "latest_pressure_change_level",
+                    pressureChangeLevel ?: 99
+                )
+                .putLong(
+                    "latest_pressure_reference_at",
+                    pressureReferenceAt ?: 0L
+                )
                 .apply()
             DiaryRecordStorage.addRecord(
                 this,
@@ -109,9 +125,25 @@ class NextActivity : AppCompatActivity() {
                         if (pressureHpa.isNaN()) JSONObject.NULL else pressureHpa
                     )
                     .put("pressure_measured_at", pressureMeasuredAt)
+                    .put(
+                        "pressure_change_hpa",
+                        pressureChangeHpa ?: JSONObject.NULL
+                    )
+                    .put(
+                        "pressure_change_level",
+                        pressureChangeLevel ?: JSONObject.NULL
+                    )
+                    .put(
+                        "pressure_reference_at",
+                        pressureReferenceAt ?: JSONObject.NULL
+                    )
             )
 
             Toast.makeText(this, "保存しました", Toast.LENGTH_SHORT).show()
+            android.util.Log.d(
+                "PressureCheck",
+                "気圧差=$pressureChangeHpa hPa, 分類=$pressureChangeLevel"
+            )
         }
 
         returnToTopButton.setOnClickListener {
@@ -119,4 +151,61 @@ class NextActivity : AppCompatActivity() {
         }
     }
 
+    private fun calculatePressureChange(): Triple<Double?, Int?, Long?> {
+
+        val repository = PressureRepository(this)
+
+        val now = System.currentTimeMillis()
+
+        // 保存時点までの最新気圧
+        val current = repository.latest(1).firstOrNull()
+            ?.takeIf { it.timestamp <= now }
+            ?: return Triple(null, null, null)
+
+        // 昨日の0時から今日の0時まで
+        val calendar = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+
+        val todayStart = calendar.timeInMillis
+
+        calendar.add(Calendar.DAY_OF_MONTH, -1)
+        val yesterdayStart = calendar.timeInMillis
+
+        val yesterdayReadings = repository.readingsSince(
+            yesterdayStart,
+            todayStart - 1
+        )
+
+        if (yesterdayReadings.isEmpty()) {
+            return Triple(null, null, null)
+        }
+
+        // 昨日の測定値のうち、現在時刻に最も近い時刻を選ぶ
+        val targetTime = Calendar.getInstance().apply {
+            timeInMillis = current.timestamp
+            add(Calendar.DAY_OF_MONTH, -1)
+        }.timeInMillis
+
+        val previous = yesterdayReadings.minByOrNull {
+            kotlin.math.abs(it.timestamp - targetTime)
+        } ?: return Triple(null, null, null)
+
+        val difference =
+            current.pressureHpa.toDouble() -
+                    previous.pressureHpa.toDouble()
+
+        val level = when {
+            difference >= 5.0 -> 2
+            difference > 1.0 -> 1
+            difference >= -1.0 -> 0
+            difference > -5.0 -> -1
+            else -> -2
+        }
+
+        return Triple(difference, level, previous.timestamp)
+    }
 }

@@ -75,6 +75,14 @@ class MandalaDataActivity : AppCompatActivity() {
             val intent = Intent(this, StepsMandalaActivity::class.java)
             startActivity(intent)
         }
+        val pressureButton =
+            findViewById<Button>(R.id.mandalaPressureButton)
+
+        pressureButton.setOnClickListener {
+            val intent = Intent(this, PressureMandalaActivity::class.java)
+            startActivity(intent)
+        }
+
 
 
     }
