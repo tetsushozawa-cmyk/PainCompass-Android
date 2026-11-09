@@ -113,11 +113,11 @@ class MandalaMapView @JvmOverloads constructor(
 
                     column == 0 && row > 0 -> when {
                         usePressureAxis -> when (row) {
-                            1 -> "上+2"
-                            2 -> "上+1"
-                            3 -> "安定"
-                            4 -> "下-1"
-                            5 -> "下-2"
+                            1 -> "≥+5"
+                            2 -> ">+1"
+                            3 -> "±1"
+                            4 -> "<-1"
+                            5 -> "≤-5"
                             else -> ""
                         }
 

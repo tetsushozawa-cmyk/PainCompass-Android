@@ -46,7 +46,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="縦軸：気圧変化（上昇・安定・低下）&#10;横軸：疼痛（1〜6）&#10;気圧差は前日の測定値との比較です。"
+            android:text="縦軸：前日との気圧差（hPa）&#10;横軸：疼痛（1〜6）&#10;&#10;【気圧差の判定基準】&#10;≧＋5：5 hPa以上の上昇&#10;＞＋1：1 hPaを超え5 hPa未満の上昇&#10;±1：−1〜＋1 hPa（ほぼ変化なし）&#10;＜−1：1 hPaを超え5 hPa未満の低下&#10;≦−5：5 hPa以上の低下&#10;&#10;気圧差は、記録時の気圧と前日のほぼ同じ時刻の気圧を比較した値です。"
             android:textSize="16sp"
             android:lineSpacingExtra="6dp"
             android:layout_marginTop="16dp"

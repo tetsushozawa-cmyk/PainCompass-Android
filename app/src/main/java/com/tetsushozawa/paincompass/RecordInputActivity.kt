@@ -48,13 +48,15 @@ class RecordInputActivity : AppCompatActivity() {
         var selectedSleep = ""
         var selectedBrainFog = ""
 
-        dateTimeText.text = dateFormat.format(Date())
+        val recordStartedAt = System.currentTimeMillis()
+        dateTimeText.text = dateFormat.format(Date(recordStartedAt))
         loadRecentSteps()
 
         val pressureText = findViewById<TextView>(R.id.currentPressureText)
 
         val pressureRepository = PressureRepository(this)
-        val latestPressure = pressureRepository.latest(1).firstOrNull()
+        val latestPressure = pressureRepository.latest(1)
+            .firstOrNull { it.timestamp <= recordStartedAt }
         pressureRepository.close()
 
         if (latestPressure != null) {
