@@ -65,7 +65,7 @@ class NextActivity : AppCompatActivity() {
                 0L
             )
             val (pressureChangeHpa, pressureChangeLevel, pressureReferenceAt) =
-                calculatePressureChange()
+                calculatePressureChange(pressureHpa, pressureMeasuredAt)
             getSharedPreferences("diary_records", MODE_PRIVATE)
                 .edit()
                 .putString("latest_date_time", dateTime)
@@ -151,20 +151,22 @@ class NextActivity : AppCompatActivity() {
         }
     }
 
-    private fun calculatePressureChange(): Triple<Double?, Int?, Long?> {
+    private fun calculatePressureChange(
+        pressureHpa: Double,
+        pressureMeasuredAt: Long
+    ): Triple<Double?, Int?, Long?> {
+
+        if (pressureHpa.isNaN() || pressureMeasuredAt <= 0L) {
+            return Triple(null, null, null)
+        }
 
         val repository = PressureRepository(this)
-
-        val now = System.currentTimeMillis()
-
-        // 保存時点までの最新気圧
-        val current = repository.latest(1).firstOrNull()
-            ?.takeIf { it.timestamp <= now }
-            ?: return Triple(null, null, null)
+        try {
 
         // 昨日の0時から今日の0時まで
-        val calendar = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 0)
+            val calendar = Calendar.getInstance().apply {
+                timeInMillis = pressureMeasuredAt
+                set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
@@ -186,7 +188,7 @@ class NextActivity : AppCompatActivity() {
 
         // 昨日の測定値のうち、現在時刻に最も近い時刻を選ぶ
         val targetTime = Calendar.getInstance().apply {
-            timeInMillis = current.timestamp
+            timeInMillis = pressureMeasuredAt
             add(Calendar.DAY_OF_MONTH, -1)
         }.timeInMillis
 
@@ -194,9 +196,8 @@ class NextActivity : AppCompatActivity() {
             kotlin.math.abs(it.timestamp - targetTime)
         } ?: return Triple(null, null, null)
 
-        val difference =
-            current.pressureHpa.toDouble() -
-                    previous.pressureHpa.toDouble()
+            val difference =
+                pressureHpa - previous.pressureHpa.toDouble()
 
         val level = when {
             difference >= 5.0 -> 2
@@ -206,6 +207,9 @@ class NextActivity : AppCompatActivity() {
             else -> -2
         }
 
-        return Triple(difference, level, previous.timestamp)
+            return Triple(difference, level, previous.timestamp)
+        } finally {
+            repository.close()
+        }
     }
 }
