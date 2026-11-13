@@ -70,10 +70,14 @@ class MandalaMapView @JvmOverloads constructor(
         textSize = 11f * resources.displayMetrics.scaledDensity
         typeface = android.graphics.Typeface.DEFAULT_BOLD
     }
-    private val latestStarPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    private val latestPointPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.rgb(245, 184, 32)
+        style = Paint.Style.FILL
+    }
+    private val latestPointTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.BLACK
         textAlign = Paint.Align.CENTER
-        textSize = 24f * resources.displayMetrics.scaledDensity
+        textSize = 11f * resources.displayMetrics.scaledDensity
         typeface = android.graphics.Typeface.DEFAULT_BOLD
     }
 
@@ -163,12 +167,18 @@ class MandalaMapView @JvmOverloads constructor(
         }
 
         for (positionedPoint in positionedPoints.filter { it.point.isLatest }) {
-            drawCenteredText(
-                canvas,
-                positionedPoint.point.label,
+            canvas.drawCircle(
                 positionedPoint.x,
                 positionedPoint.y,
-                latestStarPaint
+                pointRadius,
+                latestPointPaint
+            )
+            drawCenteredText(
+                canvas,
+                "1",
+                positionedPoint.x,
+                positionedPoint.y,
+                latestPointTextPaint
             )
         }
     }
