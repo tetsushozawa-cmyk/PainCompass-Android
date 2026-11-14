@@ -13,8 +13,8 @@ android {
     defaultConfig {
         applicationId = "com.tetsushozawa.paincompass"
         minSdk = 26
-        versionCode = 4
-        versionName = "1.1"
+        versionCode = 5
+        versionName = "1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
